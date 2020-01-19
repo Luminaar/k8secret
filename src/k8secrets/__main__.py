@@ -68,8 +68,8 @@ PARSER.add_argument("-l", type=str, required=False, dest="variable_list")
 def main():
 
     args = PARSER.parse_args()
-    secret_name: str = args.secret_name
-    variable_list: str = args.variable_list
+    secret_name = args.secret_name
+    variable_list = args.variable_list
 
     if not variable_list and not sys.stdin.isatty():
         variable_list = "".join(sys.stdin.readlines()).strip("\n")
