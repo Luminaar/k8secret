@@ -7,7 +7,7 @@ def parse(input_string: str) -> Dict[str, str]:
     """Try to parse input into a dictionary of `variable`:`value` pairs. Raise
     ValueError if parsing fails for some reason."""
 
-    for sep in ["\r\n", "\n", ","]:
+    for sep in ["\r\n", "\n", ";", ","]:
         lines = input_string.split(sep)
         if len(lines) > 1:
             break

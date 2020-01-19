@@ -24,7 +24,8 @@ Variable list is a list of key/value pairs in any of the following formats:
     KEY\\tvalue - separated by a tab character
 
 If value is wrapped in single or double quotes they will be ignored. Pairs can
-be separated either by a newline character (Unix or Windows) or a comma.
+be separated either by a newline character (Unix or Windows) or a comma or a
+semicolon.
 
 'k8secrets' prints output to stdout. The output is valid yaml and contains
 two sections. First is a complete k8s secret object:
