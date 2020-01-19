@@ -47,12 +47,12 @@ can use in your deployments or cronjobs:
     env:
       - name: KEY1
         valueFrom:
-        secretKeyRef:
+          secretKeyRef:
             name: mysecret
             key: key1
       - name: KEY2
         valueFrom:
-        secretKeyRef:
+          secretKeyRef:
             name: mysecret
             key: key2
 """

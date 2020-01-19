@@ -35,12 +35,12 @@ def test_create_env_map():
         env:
           - name: KEY1
             valueFrom:
-            secretKeyRef:
+              secretKeyRef:
                 name: {name}
                 key: key1
           - name: KEY2
             valueFrom:
-            secretKeyRef:
+              secretKeyRef:
                 name: {name}
                 key: key2""".format(
             name=NAME

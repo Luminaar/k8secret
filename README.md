@@ -1,5 +1,8 @@
 k8secrets
 =====
+[![PyPI version](https://img.shields.io/pypi/v/k8secrets?color=blue)](https://pypi.org/project/k8secrets/)
+[![Python versions](https://img.shields.io/pypi/pyversions/k8secrets)](https://pypi.org/project/k8secrets/)
+[![Code style](https://img.shields.io/badge/formatted%20with-black-black)](https://github.com/psf/black)
 
 When deploying an application to k8s cluster you often need to create a
 `secret` object that contains environment variables for that application.
@@ -30,11 +33,11 @@ After this, you can run `k8secrets` command in your terminal or run the package 
 ## Usage
 `k8secrets` takes a `secret` object name and a list of variables as input:
 
-	k8secrets mysecret KEY1=value1,KEY2=value2
+    k8secrets mysecret KEY1=value1,KEY2=value2
 
 It can also read the variables from `stdin` (you can pipe input into it):
 
-	echo KEY1=value1,KEY2=value2 | k8secrets mysecret
+    echo KEY1=value1,KEY2=value2 | k8secrets mysecret
 
 Variable list is a list of key/value pairs in any of the following formats:
 
@@ -70,12 +73,12 @@ can use in your `deployment`s or `cronjob`s:
 env:
   - name: KEY1
     valueFrom:
-	secretKeyRef:
-	    name: mysecret
-	    key: key1
+      secretKeyRef:
+        name: mysecret
+        key: key1
   - name: KEY2
     valueFrom:
-	secretKeyRef:
-	    name: mysecret
-	    key: key2
+      secretKeyRef:
+        name: mysecret
+        key: key2
 ```

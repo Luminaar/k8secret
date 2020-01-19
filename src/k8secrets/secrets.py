@@ -67,7 +67,7 @@ def create_env_map(name: str, variables: Dict[str, str]) -> str:
             """\
             - name: {variable}
               valueFrom:
-              secretKeyRef:
+                secretKeyRef:
                   name: {name}
                   key: {key}""".format(
                 name=name, variable=key, key=key.lower()
