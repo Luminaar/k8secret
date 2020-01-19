@@ -46,8 +46,8 @@ Variable list is a list of key/value pairs in any of the following formats:
 - `KEY:value`
 - `KEY\tvalue` (separated by a tab character)
 
-If `value` is wrapped in `''` or '""', the quotes are ignored. Pairs can be
-separated either by a newline character (Unix or Windows) or a `,`, `;`.
+If `value` is wrapped in `''` or `""`, the quotes are ignored. Pairs can be
+separated either by a newline character (Unix or Windows), `,` or `;`.
 
 ### Output
 `k8secrets` prints output to `stdout`. The output is valid `yaml` and contains
