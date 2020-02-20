@@ -27,7 +27,7 @@ environment).
 
 After this, you can run `k8secrets` command in your terminal or run the package like this:
 
-`python3 -m k8secrests`
+`python3 -m k8secrets`
 
 
 ## Usage
