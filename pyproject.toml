@@ -1,0 +1,72 @@
+[tool.poetry]
+name = "k8secrets"
+version = "1.0.0"
+description = "Generate Kubernetes Configs and Secrets from a list of environment variables"
+authors = [
+    "Max K. <kovykmax@gmail.com>"
+]
+homepage = "https://github.com/Luminaar/k8secret"
+repository = "https://github.com/Luminaar/k8secret"
+packages = [
+    {include="k8secrets", from="src"}
+]
+include = ["*.conf", "*.json", "py.typed"]
+license = "MIT"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8"
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+mypy = "0.782"
+pytest = "^6.2.2"
+pytest-cov = "^2.11.1"
+pytest-mypy = "^0.8.0"
+pytest-pylint = "^0.18.0"
+
+[tool.poetry.scripts]
+k8secrets = "k8secrets.__main__:main"
+
+[tool.pytest.ini_options]
+addopts = "--verbose --pylint --pylint-rcfile=pyproject.toml --cov=k8secrets --cov-report html --mypy"
+
+
+[tool.pylint.master]
+good-names = "logger,e,i,j,n,m,f,_"
+
+[tool.pylint.messages_control]
+disable = "all"
+enable = """,
+    unused-import,
+    fixme,
+    useless-object-inheritance,
+    unused-variable,
+    unused-argument,
+    unexpected-keyword-arg,
+    string,
+    unreachable,
+    invalid-name,
+    logging-format-interpolation,
+    logging-fstring-interpolation,
+    unnecesary-pass,
+    """
+ignored_argument_names = "_.*|^ignored_|^unused_|args|kwargs"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[[tool.poetry.source]]
+name = "avast-ida-remote"
+url = "https://artifactory.ida.avast.com/artifactory/api/pypi/pypi-remote/simple/"
+default = true
+
+[[tool.poetry.source]]
+name = "avast-ida-local"
+url = "https://artifactory.ida.avast.com/artifactory/api/pypi/pypi-local/simple/"

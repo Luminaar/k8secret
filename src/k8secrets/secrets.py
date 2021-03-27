@@ -1,5 +1,5 @@
 from base64 import b64encode
-from textwrap import indent, dedent
+from textwrap import dedent
 from typing import Dict
 
 
@@ -48,32 +48,40 @@ def create_secret_object(name: str, variables: Dict[str, str]) -> str:
 
     for key, value in variables.items():
         encoded_value = b64encode(value.encode("utf-8")).decode("utf-8")
-        text += "\n  {}: {}".format(key.lower(), encoded_value)
+        text += "\n  {}: {}".format(key, encoded_value)
 
     return text
 
 
-def create_env_map(name: str, variables: Dict[str, str]) -> str:
+def create_config_object(name: str, variables: Dict[str, str]) -> str:
+    """Return yaml file conent for `secret` object."""
 
     text = dedent(
         """\
         ---
-        env:"""
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: {}
+        data:"""
+    ).format(name)
+
+    for key, value in variables.items():
+        text += f'\n  {key}: "{value}"'
+
+    return text
+
+
+def create_env_map(name: str, config: bool = False) -> str:
+
+    ref = "configMapRef" if config else "secretRef"
+
+    text = dedent(
+        f"""\
+        ---
+        envFrom:
+          - {ref}:
+              name: {name}"""
     )
-
-    for key in variables:
-
-        var = dedent(
-            """\
-            - name: {variable}
-              valueFrom:
-                secretKeyRef:
-                  name: {name}
-                  key: {key}""".format(
-                name=name, variable=key, key=key.lower()
-            )
-        )
-
-        text += "\n" + indent(var, "  ")
 
     return text

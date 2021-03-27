@@ -4,40 +4,35 @@ k8secrets
 [![Python versions](https://img.shields.io/pypi/pyversions/k8secrets)](https://pypi.org/project/k8secrets/)
 [![Code style](https://img.shields.io/badge/formatted%20with-black-black)](https://github.com/psf/black)
 
-When deploying an application to k8s cluster you often need to create a
-`secret` object that contains environment variables for that application.
+When deploying an application to k8s cluster you often need to create a `Secret`
+or `ConfigMap` object that contains environment variables for that application.
 
 This is a tedious process:
 
 1. Create a `.yaml` file
 2. `base64` encode it
 3. Add key/value pairs to the `.yaml` file
-4. Add variables with correspondint references to the `env` section in a
-   `deployment` object
 
 This tool will automate that process for you.
 
 
 ## Installation
-Use `pip` to install this package. You can install it in a virtualenv or
-globally (this package has no dependencies an should not break your
-environment).
+Use [pipx](https://pipxproject.github.io/pipx/installation/) to install this
+package. The package will be installed in isolation and a `k8secret` command
+will be added to your path.
 
-`pip install --user k8secrets`
-
-After this, you can run `k8secrets` command in your terminal or run the package like this:
-
-`python3 -m k8secrets`
+`pipx install k8secrets`
 
 
 ## Usage
-`k8secrets` takes a `secret` object name and a list of variables as input:
+`k8secrets` takes an object name and a list of variables as input and creates a
+`Secret` Kubernetes object:
 
-    k8secrets mysecret KEY1=value1,KEY2=value2
+    k8secrets mysecret -l KEY1=value1,KEY2=value2
 
-It can also read the variables from `stdin` (you can pipe input into it):
+or a `ConfigMap`:
 
-    echo KEY1=value1,KEY2=value2 | k8secrets mysecret
+    k8secrets --config myconfig -l KEY1=value1,KEY2=value2
 
 Variable list is a list of key/value pairs in any of the following formats:
 
@@ -51,7 +46,7 @@ separated either by a newline character (Unix or Windows), `,` or `;`.
 
 ### Output
 `k8secrets` prints output to `stdout`. The output is valid `yaml` and contains
-two sections. First is a complete k8s `secret` object:
+two sections. First is a complete k8s `Secret` or `ConfigMap` object:
 
 ```yaml
 ---
@@ -61,24 +56,39 @@ metadata:
   name: mysecret
 type: Opaque
 data:
-  key1: dmFsdWUx
-  key2: dmFsdWUy
+  KEY1: dmFsdWUx
+  KEY2: dmFsdWUy
 ```
 
-The second is an `env` section with references to the `secret` object that you
-can use in your `deployment`s or `cronjob`s:
+The second is an `envFrom` section with a reference to the Secret or ConfigMap object that you
+can use in your deployments or cronjobs:
 
 ```yaml
 ---
-env:
-  - name: KEY1
-    valueFrom:
-      secretKeyRef:
-        name: mysecret
-        key: key1
-  - name: KEY2
-    valueFrom:
-      secretKeyRef:
-        name: mysecret
-        key: key2
+envFrom:
+  - secretRef:
+      name: mysecret
 ```
+
+## Development
+The application is written in Python and uses
+[Poetry](https://python-poetry.org/docs/) to configure the package and manage
+it's dependencies.
+
+Make sure you have [Poetry CLI installed](https://python-poetry.org/docs/#installation).
+Then you can run
+
+    $ poetry install
+
+which will install the project dependencies (including `dev` dependencies) into a
+Python virtual environment managed by Poetry (alternatively, you can activate
+your own virtual environment beforehand and Poetry will use that).
+
+### Run tests with pytest
+
+    $ poetry run pytest
+
+or activate the `poetry` shell first
+
+	$ poetry shell
+	$ pytest

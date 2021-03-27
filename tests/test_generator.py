@@ -1,6 +1,6 @@
 from textwrap import dedent
 
-from k8secrets.secrets import create_secret_object, create_env_map
+from k8secrets.secrets import create_config_object, create_secret_object
 
 NAME = "mysecret"
 PAIRS = {"KEY1": "value1", "KEY2": "value2"}
@@ -17,8 +17,8 @@ def test_create_secret_object():
           name: {}
         type: Opaque
         data:
-          key1: dmFsdWUx
-          key2: dmFsdWUy""".format(
+          KEY1: dmFsdWUx
+          KEY2: dmFsdWUy""".format(
             NAME
         )
     )
@@ -27,25 +27,21 @@ def test_create_secret_object():
     assert result == content
 
 
-def test_create_env_map():
+def test_create_config_object():
 
     content = dedent(
-        """\
+        '''\
         ---
-        env:
-          - name: KEY1
-            valueFrom:
-              secretKeyRef:
-                name: {name}
-                key: key1
-          - name: KEY2
-            valueFrom:
-              secretKeyRef:
-                name: {name}
-                key: key2""".format(
-            name=NAME
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: {}
+        data:
+          KEY1: "value1"
+          KEY2: "value2"'''.format(
+            NAME
         )
     )
 
-    result = create_env_map(NAME, PAIRS)
+    result = create_config_object(NAME, PAIRS)
     assert result == content
