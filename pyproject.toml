@@ -60,13 +60,3 @@ ignored_argument_names = "_.*|^ignored_|^unused_|args|kwargs"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-
-[[tool.poetry.source]]
-name = "avast-ida-remote"
-url = "https://artifactory.ida.avast.com/artifactory/api/pypi/pypi-remote/simple/"
-default = true
-
-[[tool.poetry.source]]
-name = "avast-ida-local"
-url = "https://artifactory.ida.avast.com/artifactory/api/pypi/pypi-local/simple/"
